@@ -9,9 +9,11 @@
 :root {
   font-size: 18px;
 }
+
 body {
   padding-top: 60px;
 }
+
 header {
   position: fixed;
   width: 100%;
