@@ -9,7 +9,7 @@ const userController = require('./controllers/userController');
 
 router.use('/about', aboutController);
 router.use(articleController);
-router.use(userController);
+router.use('/user', userController);
 router.use('/', mainController);
 router.use('*', (req, res) => {
   res.render('404', {title: 'Not Found'});
