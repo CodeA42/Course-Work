@@ -11,6 +11,9 @@ router.use('/about', aboutController);
 router.use(articleController);
 router.use(userController);
 router.use('/', mainController);
+router.use('*', (req, res) => {
+  res.render('404', {layout: false});
+});
 
 
 module.exports = router;
