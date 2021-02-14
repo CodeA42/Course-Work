@@ -9,8 +9,8 @@ const userController = require('./controllers/userController');
 
 router.use('/about', aboutController);
 router.use(articleController);
-router.use(mainController);
 router.use(userController);
+router.use('/', mainController);
 
 
 module.exports = router;
