@@ -6,9 +6,8 @@ const articleController = require('./controllers/articleController');
 const mainController = require('./controllers/mainController');
 const userController = require('./controllers/userController');
 
-
 router.use('/about', aboutController);
-router.use(articleController);
+router.use('/article', articleController);
 router.use('/user', userController);
 router.use('/', mainController);
 router.use('*', (req, res) => {
