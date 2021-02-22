@@ -1,6 +1,5 @@
 const express = require('express');
 const config = require('./config/config');
-const middlewares = require('./config/middlewares');
 const app = express();
 const routes = require('./routes');
 

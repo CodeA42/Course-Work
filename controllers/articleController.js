@@ -6,7 +6,7 @@ router.get('/create', (req, res) => {
 });
 
 router.post('/post', (req, res) => {
-  
+  res.render('article/create', {title: 'Create Article'});
 });
 
 router.get('/:id', (req, res) => {
