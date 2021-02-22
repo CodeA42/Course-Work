@@ -50,3 +50,9 @@ header {
   background-color: black;
   color: white;
 }
+
+.create-article-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
