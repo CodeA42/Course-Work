@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const router = Router();
+
 const middlewares = require('./config/middlewares');
 
 const aboutController = require('./controllers/aboutController');

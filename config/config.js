@@ -1,10 +1,17 @@
 const config = {
   development: {
     "PORT": 5000,
-
+    "db": {
+      "uri": "mongodb://localhost",
+      "PORT": "27017" ,
+      "collection": "course_work",
+      "tables": {
+        "articles": ""
+      }
+    }
   },
 
-  production: {
+  present: {
     "PORT": 80
   }
 }
