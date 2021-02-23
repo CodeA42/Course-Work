@@ -3,10 +3,10 @@ const config = require('./config/config');
 const app = express();
 const routes = require('./routes');
 
-//Connect to DB
-require('./config/db');
+//Init DB
+require('./config/db/init');
 
-//Initialize express
+//Init express
 require('./config/express')(app);
 app.use(routes);
 
