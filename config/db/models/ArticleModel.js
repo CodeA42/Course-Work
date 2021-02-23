@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const authorsSchema = mongoose.Schema({
   fullName: String
  }, {_id:false});

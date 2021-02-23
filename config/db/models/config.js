@@ -1,1 +1,1 @@
-requrie('./ArticleModel');
+require('./ArticleModel');
