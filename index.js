@@ -10,4 +10,6 @@ require('./config/db/init');
 require('./config/express')(app);
 app.use(routes);
 
+require('./config/partials');
+
 app.listen(config.PORT, () => {console.log(`Server is running on port ${config.PORT}..`)});

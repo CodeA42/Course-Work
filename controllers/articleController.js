@@ -6,7 +6,7 @@ router.get('/create', (req, res) => {
   res.render('article/create', {title: 'Create Article'});
 });
 
-router.post('/post', async (req, res) => {
+router.post('/create', async (req, res) => {
   const ArticleModel = mongoose.model('ArticleModel');
   const article = new ArticleModel();
 
@@ -17,13 +17,17 @@ router.post('/post', async (req, res) => {
   article.authors = authorsList;
 
   const saved = await article.save();
-  console.log(saved);
 
-  res.redirect(`article/${saved._id}`, {title: saved.title});
+  res.redirect(`/article/${saved._id}`);
 });
 
-router.get('/:id', (req, res) => {
-  res.render('article/view', {title: `Article ${req.params.id}`});
+router.get('/:id', async (req, res) => {
+  const ArticleModel = mongoose.model('ArticleModel');
+
+  const article = await ArticleModel.findById(req.params.id).exec();
+  console.log(article);
+
+  res.render('article/view', article);
 });
 
 module.exports = router;

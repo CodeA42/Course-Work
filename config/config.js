@@ -6,7 +6,7 @@ const config = {
       "PORT": "27017" ,
       "collection": "course_work",
       "tables": {
-        "articles": ""
+        "articles": "ArticleModel"
       }
     }
   },
