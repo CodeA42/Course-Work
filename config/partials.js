@@ -1,3 +1,4 @@
 const handlebars = require('handlebars')
 
-handlebars.registerPartial('userCard', '../views/users/card.hbs');
+let userCard = require('../views/users/card.hbs');
+handlebars.registerPartial('userCard', userCard);

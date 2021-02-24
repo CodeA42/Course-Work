@@ -25,9 +25,9 @@ router.get('/:id', async (req, res) => {
   const ArticleModel = mongoose.model('ArticleModel');
 
   const article = await ArticleModel.findById(req.params.id).exec();
-  console.log(article);
+  let articleObj = article.toObject();
 
-  res.render('article/view', article);
+  res.render('article/view', articleObj);
 });
 
 module.exports = router;

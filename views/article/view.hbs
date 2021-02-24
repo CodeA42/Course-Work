@@ -3,5 +3,7 @@
 
   <article>{{body}}</article>
 
-  {{> userCard}}
+  {{#each authors}}
+    {{> userCard}}
+  {{/each}}
 </main>
