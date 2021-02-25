@@ -23,11 +23,15 @@ router.post('/create', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const ArticleModel = mongoose.model('ArticleModel');
+  try{
+    const article = await ArticleModel.findById(req.params.id).exec();
+  } catch(e) {
+    res.render('article/404', {id: req.params.id});
+  }
 
-  const article = await ArticleModel.findById(req.params.id).exec();
   let articleObj = article.toObject();
 
-  res.render('article/view', articleObj);
+  res.render('/article/view', articleObj);
 });
 
 module.exports = router;
