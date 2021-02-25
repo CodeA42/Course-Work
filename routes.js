@@ -15,7 +15,7 @@ router.use('/article', articleController);
 router.use('/user', userController);
 router.use('/', mainController);
 router.use('*', (req, res) => {
-  res.render('404', {title: 'Not Found'});
+  res.status(404).render('404', {title: 'Not Found'});
 });
 
 

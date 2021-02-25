@@ -23,15 +23,14 @@ router.post('/create', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const ArticleModel = mongoose.model('ArticleModel');
+
   try{
     const article = await ArticleModel.findById(req.params.id).exec();
+    const articleObj = article.toObject();
+    res.render('article/view', articleObj);
   } catch(e) {
-    res.render('article/404', {id: req.params.id});
+    res.status(404).render('article/404', {title: 'Article not found', id: req.params.id});
   }
-
-  let articleObj = article.toObject();
-
-  res.render('/article/view', articleObj);
 });
 
 module.exports = router;
