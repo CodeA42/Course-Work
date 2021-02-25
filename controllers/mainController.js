@@ -7,10 +7,16 @@ router.get('/', async (req, res) => {
 
   const articleCount = await ArticleModel.find().estimatedDocumentCount();
   const page = req.query.p ?? 0;
-  const articles = await ArticleModel.find().limit(5).skip(page * 5);
-  const article = articles.map(e => e.toObject());
+  const articlesArr = await ArticleModel.find().limit(5).skip(page * 5);
+  const articles = articlesArr.map(e => e.toObject());
 
-  res.render('home', {title: 'Home Page', article});
+  const pages = (function(ac) {
+    let pages = [];
+    for (let i = 0; i < Math.ceil(ac / 5); i++) {
+    pages.push(i);
+  } return pages})(articleCount);
+
+  res.render('home', {title: 'Home Page', articles, pages});
 });
 
 router.get('/register', (req, res) => {
