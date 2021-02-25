@@ -15,6 +15,7 @@ router.post('/create', async (req, res) => {
   article.title = req.body.title;
   article.body = req.body.content;
   article.authors = authorsList;
+  article.postDate = new Date();
 
   const saved = await article.save();
 
