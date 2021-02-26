@@ -20,11 +20,11 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/register', (req, res) => {
-  res.render('users/register', {title: 'Register'});
+  res.render('user/register', {title: 'Register'});
 });
 
 router.get('/login', (req, res) => {
-  res.render('users/login', {title: 'Login'});
+  res.render('user/login', {title: 'Login'});
 });
 
 module.exports = router;

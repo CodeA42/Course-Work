@@ -5,10 +5,11 @@ const config = {
       "uri": "mongodb://localhost",
       "PORT": "27017" ,
       "collection": "course_work",
-      "tables": {
+      "models": {
         "articles": "ArticleModel"
       }
-    }
+    },
+    "hashSalt": 8
   },
 
   present: {

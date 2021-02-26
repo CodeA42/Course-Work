@@ -25,7 +25,7 @@ router.post('/create', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const ArticleModel = mongoose.model('ArticleModel');
 
-  try{
+  try {
     const article = await ArticleModel.findById(req.params.id).exec();
     const articleObj = article.toObject();
     res.render('article/view', articleObj);
