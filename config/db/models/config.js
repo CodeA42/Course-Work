@@ -1,1 +1,2 @@
 require('./ArticleModel');
+require('./UserModel');
