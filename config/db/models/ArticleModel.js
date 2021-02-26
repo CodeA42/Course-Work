@@ -7,6 +7,7 @@ const authorsSchema = mongoose.Schema({
 const articleSchema = new mongoose.Schema({
  title: String,
  body: String,
+ postDate: {type: Date, default: Date.now},
  authors: [authorsSchema]
 });
 
