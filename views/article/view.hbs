@@ -1,9 +1,9 @@
 <main>
-  <h1>{{title}}</h1>
+  <h1>{{article.title}}</h1>
 
-  <article>{{body}}</article>
+  <article>{{article.body}}</article>
 
-  {{#each authors}}
+  {{#each article.authors}}
     {{> userCard}}
   {{/each}}
 </main>

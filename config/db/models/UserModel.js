@@ -7,4 +7,4 @@ const userSchema = new mongoose.Schema({
   articles: [String]
 });
 
- mongoose.model('User', userSchema);
+mongoose.model('User', userSchema);

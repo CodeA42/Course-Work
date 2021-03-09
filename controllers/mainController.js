@@ -16,15 +16,15 @@ router.get('/', async (req, res) => {
     pages.push(i);
   } return pages})(articleCount);
 
-  res.render('home', {title: 'Home Page', articles, pages});
+  res.render('home', {title: 'Home Page', articles, pages, user: req.user});
 });
 
 router.get('/register', (req, res) => {
-  res.render('user/register', {title: 'Register'});
+  res.render('user/register', {title: 'Register', user: req.user});
 });
 
 router.get('/login', (req, res) => {
-  res.render('user/login', {title: 'Login'});
+  res.render('user/login', {title: 'Login', user: req.user});
 });
 
 module.exports = router;

@@ -3,7 +3,7 @@ const router = Router();
 const mongoose = require('mongoose');
 
 router.get('/create', (req, res) => {
-  res.render('article/create', {title: 'Create Article'});
+  res.render('article/create', {title: 'Create Article', user: req.user});
 });
 
 router.post('/create', async (req, res) => {
@@ -28,9 +28,9 @@ router.get('/:id', async (req, res) => {
   try {
     const article = await ArticleModel.findById(req.params.id).exec();
     const articleObj = article.toObject();
-    res.render('article/view', articleObj);
+    res.render('article/view', {article: articleObj, user: req.user});
   } catch(e) {
-    res.status(404).render('article/404', {title: 'Article not found', id: req.params.id});
+    res.status(404).render('article/404', {title: 'Article not found', id: req.params.id, user: req.user});
   }
 });
 
