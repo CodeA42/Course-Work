@@ -22,8 +22,16 @@ async function updateUserById(userId, updatedInfo) {
   return user?.toObject();
 }
 
+async function addCommentToArticle(commentId, articleId) {
+  const article = ArticleModel.findById(articleId);
+  article.comments.push(commentId);
+  article.save();
+}
+
 module.exports = {
   getUserByUsername,
   getUserById,
-  getUserIdByUsername
+  getUserIdByUsername,
+  updateUserById,
+  addCommentToArticle
 }
