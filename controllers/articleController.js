@@ -10,7 +10,7 @@ router.post('/create', async (req, res) => {
   const ArticleModel = mongoose.model('ArticleModel');
   const article = new ArticleModel();
 
-  const authorsList = req.body.authors.split(',').map(e => {return {'fullName': e}});
+  const authorsList = req.body.authors.split(',').map(e => {return {'fullName': e.trim()}});
 
   article.title = req.body.title;
   article.body = req.body.content;
