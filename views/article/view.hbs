@@ -6,4 +6,17 @@
   {{#each article.authors}}
     {{> userCard}}
   {{/each}}
+  <form action="/article/comment" method="post">
+
+    <input type="hidden" name="articleId" value="{{article._id}}">
+
+    <label for="comment">Add Comment</label>
+    <input type="text" id="comment" name="comment">
+
+    <button type="submit">Comment</button>
+  </form>
+
+  {{#each article.comments}}
+    {{> commentCard}}
+  {{/each}}
 </main>
