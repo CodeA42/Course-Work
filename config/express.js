@@ -6,7 +6,8 @@ const express = require('express');
 const handlebars = require('express-handlebars');
 const session = require('express-session');
 const flash = require('express-flash');
-const passport = require('passport')
+const passport = require('passport');
+const methodOverride = require('method-override');
 
 function configExpress(app) {
   app.engine('.hbs', handlebars({
@@ -24,6 +25,7 @@ function configExpress(app) {
   app.use(flash());
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(methodOverride('_method'));
 
 }
 
