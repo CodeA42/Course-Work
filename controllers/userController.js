@@ -4,8 +4,9 @@ const config = require('../config/config');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const middlewares = require('../config/middlewares');
 
-router.post('/register', async (req, res) => {
+router.post('/register', middlewares.checkNotAuthenticated, async (req, res) => {
   const UserModel = mongoose.model('User');
   const user = new UserModel();
 
@@ -31,13 +32,13 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.post('/login', passport.authenticate('local', {
+router.post('/login', middlewares.checkNotAuthenticated, passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/login',
   failureFlash: true
 }));
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', middlewares.checkAuthenticated, async (req, res) => {
   const UserModel = mongoose.model('User');
 
   try {
@@ -49,5 +50,7 @@ router.get('/:id', async (req, res) => {
   }
   
 });
+
+
 
 module.exports = router;
