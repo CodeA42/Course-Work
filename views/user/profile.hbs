@@ -1,6 +1,8 @@
 <nav class="profileSidenav">
   <ul>
     <li><a href="/user/{{user._id}}/articles">Articles</a></li>
-    <li><a href="/#">Logout</a></li>
+    <form action="/logout?_method=DELETE" method="POST">
+      <button type="submit">Log Out</button>
+    </form>
   </ul>
 </nav>
