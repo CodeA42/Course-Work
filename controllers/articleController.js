@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const mongoose = require('mongoose');
+const dbQueries = require('../db/queries');
 
 router.get('/create', (req, res) => {
   res.render('article/create', {title: 'Create Article', user: req.user});
@@ -8,17 +9,53 @@ router.get('/create', (req, res) => {
 
 router.post('/create', async (req, res) => {
   const ArticleModel = mongoose.model('ArticleModel');
+  const UserModel = mongoose.model('User');
+
   const article = new ArticleModel();
 
-  const authorsList = req.body.authors.split(',').map(e => {return {'fullName': e.trim()}});
+  const inputList = req.body.authors
+  .split(',')
+  .map(e => e.trim())
+  .filter(function t(e, index, arr) {
+    for (let i = 0; i < index; i++) {
+      if(e == arr[i]) {
+        return false;
+      }
+    }
+    return true;
+  });
+
+  const authorsList = await getUserList(inputList);
+  const userList = authorsList.filter(e => e != null).map(e =>{return  {"id": e}});
+
+  async function getUserList(authorsList) {
+    return Promise.all(authorsList.map(async function (username) {
+      const id = await dbQueries.getUserIdByUsername(username);
+      return (id) ? id.toString() : null;
+    }))
+  }
 
   article.title = req.body.title;
   article.body = req.body.content;
-  article.authors = authorsList;
+  article.authors = userList;
   article.postDate = new Date();
+  article.postedBy = req.user._id;
 
   const saved = await article.save();
 
+  function updateUsers() {
+    const savedObj = saved.toObject();
+    
+    savedObj.authors.forEach(async function(e) {
+      console.log(e)
+      console.log(e.id)
+      const user = await UserModel.findById(e.id).exec();
+      console.log(user);
+      user.articles.push(savedObj._id);
+      user.save();
+    })
+  }
+  updateUsers();
   res.redirect(`/article/${saved._id}`);
 });
 
