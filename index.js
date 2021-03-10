@@ -1,11 +1,12 @@
 const express = require('express');
 const config = require('./config/config');
 const app = express();
-const routes = require('./routes');
 const passport = require('passport');
 
 //Init DB
 require('./config/db/init');
+
+const routes = require('./routes'); //Db shoud init before routes
 
 //Init passport
 require('./config/passport')(passport);
