@@ -23,6 +23,11 @@ router.get('/register', (req, res) => {
   res.render('user/register', {title: 'Register', user: req.user});
 });
 
+router.delete('/logout', (req, res) => {
+  req.logOut();
+  res.redirect('/');
+})
+
 router.get('/login', (req, res) => {
   res.render('user/login', {title: 'Login', user: req.user});
 });
