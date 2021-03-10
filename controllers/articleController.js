@@ -41,6 +41,7 @@ router.post('/create', middlewares.checkAuthenticated, async (req, res) => {
   article.authors = userList;
   article.postDate = new Date();
   article.postedBy = req.user._id;
+  article.comments = [];
 
   const saved = await article.save();
 
@@ -65,15 +66,22 @@ router.get('/:id', async (req, res) => {
   try {
     const article = await ArticleModel.findById(req.params.id).exec();
     let articleObj = article.toObject();
-    async function getUserList(authorsId) {
-      return Promise.all(authorsId.map(async function (e) {
-        const user = await UserModel.findById(e.id).exec();
-        return user.toObject();
-      }))
-    }
+
     articleObj.authors = await getUserList(articleObj.authors);
+
+    async function getUserList(authorsId) {
+      return Promise.all(authorsId.map(async e => await dbQueries.getUserById(e.id)));
+    }
+
+    articleObj.comments = await getComments(articleObj.comments);
+
+    async function getComments(commentsId) {
+      return Promise.all(commentsId.map(async e => await dbQueries.getCommentFromId(e.id)));
+    }
+    console.log(articleObj.comments);
     res.render('article/view', {article: articleObj, user: req.user});
   } catch(e) {
+    console.error(e);
     res.status(404).render('article/404', {title: 'Article not found', id: req.params.id, user: req.user});
   }
 });
@@ -93,7 +101,5 @@ router.post('/comment', middlewares.checkAuthenticated, async (req, res) => {
   dbQueries.addCommentToArticle(savedObj._id, req.body.articleId);
   res.redirect(`/article/${req.body.articleId}`);
 });
-
-
 
 module.exports = router;
