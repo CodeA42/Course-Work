@@ -1,8 +1,9 @@
-{{#each articles}}
-    {{> articleCard}}
-{{/each}}
+<main>
+    {{#each articles}}
+        {{> articleCard}}
+    {{/each}}
 
-{{#each pages}}
-<a href="/?p={{this}}" class="">{{this}}</a>
-{{/each}}
-
+    {{#each pages}}
+    <a href="/?p={{this}}" class="">{{this}}</a>
+    {{/each}}
+</main>

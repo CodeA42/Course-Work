@@ -1,8 +1,11 @@
-<nav class="profileSidenav">
+<main>
+  <h1>User</h1>
+  <h2>{{userObj.username}}</h2>
+</main>
+
+{{!-- <nav class="profileSidenav"> --}}
   <ul>
-    <li><a href="/user/{{user._id}}/articles">Articles</a></li>
-    <form action="/logout?_method=DELETE" method="POST">
-      <button type="submit">Log Out</button>
-    </form>
+    <li><a href="/user/{{userObj._id}}/articles">Articles</a></li>
+    
   </ul>
-</nav>
+{{!-- </nav> --}}

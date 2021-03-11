@@ -1,0 +1,11 @@
+<main>
+  <h1>{{userObj.username}}'s Articles</h1>
+
+  {{#each articles}}
+        {{> articleCard}}
+    {{/each}}
+
+    {{#each pages}}
+      <a href="/?p={{this}}" class="">{{this}}</a>
+    {{/each}}
+</main>
