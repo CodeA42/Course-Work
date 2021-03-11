@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const mongoose = require('mongoose');
+const middlewares = require('../config/middlewares');
 
 router.get('/', async (req, res) => {
   const ArticleModel = mongoose.model('ArticleModel');
@@ -28,7 +29,7 @@ router.delete('/logout', (req, res) => {
   res.redirect('/');
 })
 
-router.get('/login', (req, res) => {
+router.get('/login', middlewares.checkNotAuthenticated, (req, res) => {
   res.render('user/login', {title: 'Login', user: req.user});
 });
 

@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const middlewares = require('../config/middlewares');
+const dbQueries = require('../db/queries');
 
 router.post('/register', middlewares.checkNotAuthenticated, async (req, res) => {
   const UserModel = mongoose.model('User');
@@ -48,7 +49,28 @@ router.get('/:id', middlewares.checkAuthenticated, async (req, res) => {
   } catch(e) {
     res.status(404).render('user/404', {title: 'User not found', id: req.params.id, user: req.user});
   }
-  
+});
+
+router.get('/:id/articles', middlewares.checkAuthenticated, async (req, res) => {
+  const ArticleModel = mongoose.model('ArticleModel');
+  const UserModel = mongoose.model('User');
+
+  const searchObj = {"authors.id": req.params.id};
+  const articleCount = await ArticleModel.countDocuments(searchObj);
+  const page = req.query.p ?? 0;
+  const articlesArr = await ArticleModel.find(searchObj).limit(5).skip(page * 5);
+  const articles = articlesArr.map(e => e.toObject());
+
+  const pages = (function(ac) {
+    let pages = [];
+    for (let i = 0; i < Math.ceil(ac / 5); i++) {
+    pages.push(i);
+  } return pages})(articleCount);
+
+
+  const user = await UserModel.findById(req.params.id).exec();
+  const userObj = user?.toObject();
+  res.render('user/articles', {title: 'User Articles', userObj, articles, pages, user: req.user});
 });
 
 

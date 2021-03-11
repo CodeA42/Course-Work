@@ -78,7 +78,7 @@ router.get('/:id', async (req, res) => {
     async function getComments(commentsId) {
       return Promise.all(commentsId.map(async e => await dbQueries.getCommentFromId(e.id)));
     }
-    console.log(articleObj.comments);
+    
     res.render('article/view', {article: articleObj, user: req.user});
   } catch(e) {
     console.error(e);
