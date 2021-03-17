@@ -1,11 +1,12 @@
 <main>
   <h1>{{userObj.username}}'s Articles</h1>
-
+  
+  <div clas="test"></div>
   {{#each articles}}
-        {{> articleCard}}
-    {{/each}}
+    {{> articleCard}}
+  {{/each}}
 
-    {{#each pages}}
-      <a href="/?p={{this}}" class="">{{this}}</a>
-    {{/each}}
+  {{#each pages}}
+    <a href="/user/{{this.id}}/articles?p={{this.p}}" class="">{{this.p}}</a>
+  {{/each}}
 </main>

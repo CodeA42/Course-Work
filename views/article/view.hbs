@@ -3,9 +3,11 @@
 
   <article>{{article.body}}</article>
 
+  <h2>Authors</h2>
   {{#each article.authors}}
     {{> userCard}}
   {{/each}}
+  <h2>Comments</h2>
   <form action="/article/comment" method="post">
 
     <input type="hidden" name="articleId" value="{{article._id}}">

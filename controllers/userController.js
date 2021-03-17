@@ -39,7 +39,7 @@ router.post('/login', middlewares.checkNotAuthenticated, passport.authenticate('
   failureFlash: true
 }));
 
-router.get('/:id', middlewares.checkAuthenticated, async (req, res) => {
+router.get('/:id', middlewares.checkAuthenti cated, async (req, res) => {
   const UserModel = mongoose.model('User');
 
   try {
@@ -61,16 +61,19 @@ router.get('/:id/articles', middlewares.checkAuthenticated, async (req, res) => 
   const articlesArr = await ArticleModel.find(searchObj).limit(5).skip(page * 5);
   const articles = articlesArr.map(e => e.toObject());
 
-  const pages = (function(ac) {
-    let pages = [];
-    for (let i = 0; i < Math.ceil(ac / 5); i++) {
-    pages.push(i);
-  } return pages})(articleCount);
-
-
-  const user = await UserModel.findById(req.params.id).exec();
-  const userObj = user?.toObject();
-  res.render('user/articles', {title: 'User Articles', userObj, articles, pages, user: req.user});
+  try {
+    const user = await UserModel.findById(req.params.id).exec();
+    const userObj = user?.toObject();
+    const pages = (function(ac) {
+      let pages = [];
+      for (let i = 0; i < Math.ceil(ac / 5); i++) {
+      pages.push({p: i, id: userObj._id});
+    } return pages})(articleCount);
+    res.render('user/articles', {title: 'User Articles', userObj, articles, pages, user: req.user});
+  } catch(e) {
+    console.error(e);
+    res.status(404).render('user/404', {title: 'User not found', id: req.params.id, user: req.user});
+  }
 });
 
 

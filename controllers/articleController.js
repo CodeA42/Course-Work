@@ -14,8 +14,8 @@ router.post('/create', middlewares.checkAuthenticated, async (req, res) => {
 
   const inputList = req.body.authors
   .split(',')
-  .map(e => e.trim())
-  .filter(function t(e, index, arr) {
+  .map(e => e.trim()) //trim white spaces
+  .filter(function t(e, index, arr) { //filter repeating inputs
     for (let i = 0; i < index; i++) {
       if(e == arr[i]) {
         return false;
@@ -23,15 +23,20 @@ router.post('/create', middlewares.checkAuthenticated, async (req, res) => {
     }
     return true;
   });
-
+  
   const authorsList = await getUserList(inputList);
-  const userList = authorsList.filter(e => e != null).map(e =>{return  {"id": e}});
 
   async function getUserList(authorsList) {
     return Promise.all(authorsList.map(async function (username) {
       const id = await dbQueries.getUserIdByUsername(username);
       return (id) ? id.toString() : null;
     }))
+  }
+
+  const userList = authorsList.filter(e => e != null).map(e =>{return {"id": e}});
+
+  if(userList.length == 0) {
+    return res.redirect(`/article/create`);
   }
 
   const article = new ArticleModel();
@@ -60,8 +65,8 @@ router.post('/create', middlewares.checkAuthenticated, async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const ArticleModel = mongoose.model('ArticleModel');
-  const UserModel = mongoose.model('User');
-  const CommentModel = mongoose.model('CommentModel');
+  // const UserModel = mongoose.model('User');
+  // const CommentModel = mongoose.model('CommentModel');
 
   try {
     const article = await ArticleModel.findById(req.params.id).exec();
@@ -95,11 +100,16 @@ router.post('/comment', middlewares.checkAuthenticated, async (req, res) => {
   comment.postedBy = req.user._id;
   comment.postDate = new Date();
   comment.articleId = req.body.articleId;
-
-  const saved = await comment.save();
-  const savedObj = saved.toObject();
-  dbQueries.addCommentToArticle(savedObj._id, req.body.articleId);
-  res.redirect(`/article/${req.body.articleId}`);
+  try {
+    const saved = await comment.save();
+    const savedObj = saved.toObject();
+    dbQueries.addCommentToArticle(savedObj._id, req.body.articleId);
+    res.redirect(`/article/${req.body.articleId}`);
+  } catch(e) {
+    console.error(e);
+    res.status(418).redirect(`/article/${req.body.articleId}`);
+  }
+  
 });
 
 module.exports = router;
